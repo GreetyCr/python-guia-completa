@@ -1,0 +1,845 @@
+========================================================================
+               COMANDOS Y LIBRERÍAS DE PYTHON
+========================================================================
+
+Este documento contiene una referencia de comandos comunes de Python y 
+documentación básica sobre librerías populares.
+
+------------------------------------------------------------------------
+1. COMANDOS ÚTILES DE PYTHON
+------------------------------------------------------------------------
+
+== Ejecución de scripts ==
+
+# Ejecutar un script de Python
+python script.py       # Windows
+python3 script.py      # macOS/Linux
+
+# Ejecutar con argumentos
+python script.py arg1 arg2
+
+# Ejecución interactiva (código simple de una línea)
+python -c "print('Hola mundo')"
+
+# Ejecución de módulo como script
+python -m nombre_modulo
+
+# Modo interactivo
+python              # Inicia el intérprete interactivo
+python -i script.py # Ejecuta script y entra en modo interactivo
+
+== Herramientas de línea de comandos ==
+
+# Instalar paquetes
+pip install paquete
+pip install -r requirements.txt
+
+# Crear entorno virtual
+python -m venv mi_entorno
+
+# Ejecutar servidor web simple para probar aplicaciones
+python -m http.server 8000
+
+# IPython (shell interactiva mejorada)
+pip install ipython
+ipython
+
+# Verificar la sintaxis sin ejecutar el código
+python -m py_compile script.py
+
+# Ejecutar pruebas
+python -m unittest discover
+pytest tests/        # (con pytest instalado)
+
+== Comandos útiles de desarrollo ==
+
+# Formatear código automáticamente con black
+pip install black
+black mi_archivo.py
+
+# Comprobar estilo de código con flake8
+pip install flake8
+flake8 mi_archivo.py
+
+# Generar documentación con Sphinx
+pip install sphinx
+sphinx-quickstart
+
+# Perfilado de código
+python -m cProfile script.py
+
+# Depuración interactiva
+python -m pdb script.py
+
+------------------------------------------------------------------------
+2. LIBRERÍA NUMPY
+------------------------------------------------------------------------
+
+NumPy es la librería fundamental para computación científica en Python.
+Proporciona soporte para arrays multidimensionales y matrices, junto con
+operaciones matemáticas de alto rendimiento sobre estos.
+
+== Instalación ==
+pip install numpy
+
+== Importación ==
+import numpy as np
+
+== Creación de arrays ==
+```python
+# Crear arrays desde listas
+arr = np.array([1, 2, 3, 4, 5])
+matriz = np.array([[1, 2, 3], [4, 5, 6]])
+
+# Crear arrays con valores predefinidos
+zeros = np.zeros((3, 4))          # Array 3x4 de ceros
+ones = np.ones((2, 3))            # Array 2x3 de unos
+identidad = np.eye(3)             # Matriz identidad 3x3
+aleatorios = np.random.rand(2, 2) # Array 2x2 de valores aleatorios uniformes
+gauss = np.random.randn(2, 2)     # Array 2x2 de distribución normal
+
+# Arrays con secuencias
+rango = np.arange(0, 10, 2)       # [0, 2, 4, 6, 8]
+lineal = np.linspace(0, 1, 5)     # 5 puntos equidistantes entre 0 y 1
+```
+
+== Operaciones básicas ==
+```python
+# Operaciones aritméticas (elemento a elemento)
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+suma = a + b             # [5, 7, 9]
+resta = a - b            # [-3, -3, -3]
+producto = a * b         # [4, 10, 18]
+division = a / b         # [0.25, 0.4, 0.5]
+potencia = a ** 2        # [1, 4, 9]
+
+# Operaciones con la matriz
+suma_total = np.sum(a)                # 6
+valor_maximo = np.max(a)              # 3
+valor_minimo = np.min(a)              # 1
+media = np.mean(a)                    # 2.0
+desviacion = np.std(a)                # 0.816...
+ordenado = np.sort(a)                 # [1, 2, 3]
+
+# Operaciones con matrices
+m1 = np.array([[1, 2], [3, 4]])
+m2 = np.array([[5, 6], [7, 8]])
+
+producto_matrices = np.dot(m1, m2)    # o m1 @ m2 en Python 3.5+
+transpuesta = m1.T
+determinante = np.linalg.det(m1)
+inversa = np.linalg.inv(m1)
+```
+
+== Indexación y manipulación ==
+```python
+# Acceso a elementos
+a = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+elemento = a[1, 2]       # 6 (fila 1, columna 2)
+
+# Rebanado (slicing)
+fila = a[1, :]           # [4, 5, 6]
+columna = a[:, 1]        # [2, 5, 8]
+submatriz = a[0:2, 1:3]  # [[2, 3], [5, 6]]
+
+# Cambiar forma
+b = np.arange(12)
+c = b.reshape(3, 4)      # Matriz 3x4
+d = b.reshape(2, 2, 3)   # Tensor 3D 2x2x3
+
+# Dimensiones y tamaño
+print(a.shape)           # (3, 3)
+print(a.ndim)            # 2 (dimensiones)
+print(a.size)            # 9 (número total de elementos)
+```
+
+== Funciones matemáticas ==
+```python
+# Funciones trigonométricas
+angulos = np.array([0, np.pi/2, np.pi])
+print(np.sin(angulos))   # [0.0, 1.0, 0.0]
+print(np.cos(angulos))   # [1.0, 0.0, -1.0]
+
+# Exponenciales y logaritmos
+datos = np.array([1, 2, 3])
+print(np.exp(datos))     # [2.718..., 7.389..., 20.085...]
+print(np.log(datos))     # [0.0, 0.693..., 1.098...]
+print(np.sqrt(datos))    # [1.0, 1.414..., 1.732...]
+```
+
+------------------------------------------------------------------------
+3. LIBRERÍA PANDAS
+------------------------------------------------------------------------
+
+Pandas es una poderosa librería para análisis y manipulación de datos que 
+proporciona estructuras de datos flexibles y funciones para trabajar con datos 
+estructurados.
+
+== Instalación ==
+pip install pandas
+
+== Importación ==
+import pandas as pd
+
+== Estructuras de datos fundamentales ==
+
+1. Series (array unidimensional etiquetado)
+```python
+# Crear una Series
+s = pd.Series([1, 3, 5, 7, 9], index=['a', 'b', 'c', 'd', 'e'])
+print(s)
+# a    1
+# b    3
+# c    5
+# d    7
+# e    9
+# dtype: int64
+
+# Acceder a elementos
+print(s['c'])        # 5
+print(s[['a', 'c']]) # Series con índices 'a' y 'c'
+```
+
+2. DataFrame (tabla bidimensional)
+```python
+# Crear DataFrame desde diccionario
+data = {
+    'Nombre': ['Ana', 'Juan', 'María', 'Carlos'],
+    'Edad': [25, 30, 22, 28],
+    'Ciudad': ['Madrid', 'Barcelona', 'Sevilla', 'Valencia']
+}
+df = pd.DataFrame(data)
+print(df)
+#   Nombre  Edad     Ciudad
+# 0    Ana    25     Madrid
+# 1   Juan    30  Barcelona
+# 2  María    22    Sevilla
+# 3 Carlos    28   Valencia
+
+# Crear DataFrame desde CSV
+df = pd.read_csv('archivo.csv')
+
+# Información básica
+print(df.info())          # Resumen de información del DataFrame
+print(df.describe())      # Estadísticas descriptivas
+print(df.head())          # Primeras 5 filas
+print(df.tail(3))         # Últimas 3 filas
+print(df.shape)           # (filas, columnas)
+```
+
+== Selección y filtrado de datos ==
+```python
+# Seleccionar columnas
+nombres = df['Nombre']
+ciudades_edades = df[['Ciudad', 'Edad']]
+
+# Seleccionar filas por posición
+primera_fila = df.iloc[0]
+tres_primeras = df.iloc[0:3]
+filas_especificas = df.iloc[[0, 2, 3]]
+
+# Seleccionar filas y columnas por posición
+valor = df.iloc[1, 2]
+segmento = df.iloc[0:2, 1:3]
+
+# Seleccionar filas por índice
+fila_indices = df.loc[2]
+
+# Filtrar datos con condiciones
+mayores_25 = df[df['Edad'] > 25]
+de_madrid = df[df['Ciudad'] == 'Madrid']
+mayores_25_madrid = df[(df['Edad'] > 25) & (df['Ciudad'] == 'Madrid')]
+```
+
+== Manipulación de datos ==
+```python
+# Añadir columna
+df['Altura'] = [165, 180, 170, 175]
+
+# Modificar valores
+df.loc[0, 'Edad'] = 26
+
+# Eliminar columnas o filas
+df_sin_ciudad = df.drop('Ciudad', axis=1)
+df_sin_primer_fila = df.drop(0)
+
+# Aplicar funciones a cada elemento
+df['Edad_en_meses'] = df['Edad'].apply(lambda x: x * 12)
+
+# Ordenar
+df_por_edad = df.sort_values('Edad')
+df_por_edad_desc = df.sort_values('Edad', ascending=False)
+
+# Agrupar y agregar
+agrupado = df.groupby('Ciudad').mean()
+ciudades_count = df.groupby('Ciudad').size()
+
+# Pivotar datos
+tabla_pivot = pd.pivot_table(df, values='Edad', index='Ciudad', aggfunc='mean')
+```
+
+== Manejo de datos faltantes ==
+```python
+# Detectar valores nulos
+nulos = df.isnull()
+cantidad_nulos = df.isnull().sum()
+
+# Eliminar filas con valores nulos
+df_sin_nulos = df.dropna()
+
+# Rellenar valores nulos
+df_rellenado = df.fillna(0)
+df_rellenado_media = df.fillna(df.mean())
+```
+
+== Entrada/Salida ==
+```python
+# Leer datos
+df_csv = pd.read_csv('datos.csv')
+df_excel = pd.read_excel('datos.xlsx', sheet_name='Hoja1')
+df_sql = pd.read_sql('SELECT * FROM tabla', conexion)
+df_json = pd.read_json('datos.json')
+
+# Guardar datos
+df.to_csv('salida.csv', index=False)
+df.to_excel('salida.xlsx', index=False)
+df.to_json('salida.json')
+```
+
+------------------------------------------------------------------------
+4. LIBRERÍA MATPLOTLIB
+------------------------------------------------------------------------
+
+Matplotlib es una librería para crear visualizaciones estáticas, animadas e 
+interactivas en Python.
+
+== Instalación ==
+pip install matplotlib
+
+== Importación ==
+import matplotlib.pyplot as plt
+
+== Gráficos básicos ==
+```python
+# Gráfico de líneas
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+plt.plot(x, y)
+plt.title('Cuadrados')
+plt.xlabel('Valor')
+plt.ylabel('Cuadrado')
+plt.show()
+
+# Gráfico de dispersión (scatter)
+plt.scatter(x, y, color='red', marker='o')
+plt.title('Gráfico de dispersión')
+plt.show()
+
+# Gráfico de barras
+categorias = ['A', 'B', 'C', 'D']
+valores = [10, 25, 15, 30]
+plt.bar(categorias, valores)
+plt.title('Gráfico de barras')
+plt.show()
+
+# Histograma
+datos = [1, 1, 2, 2, 2, 3, 3, 4, 5, 5, 5, 5]
+plt.hist(datos, bins=5, edgecolor='black')
+plt.title('Histograma')
+plt.show()
+
+# Gráfico circular (pie)
+etiquetas = ['A', 'B', 'C', 'D']
+tamaños = [15, 30, 45, 10]
+plt.pie(tamaños, labels=etiquetas, autopct='%1.1f%%')
+plt.title('Gráfico circular')
+plt.show()
+```
+
+== Subplots (múltiples gráficos) ==
+```python
+# Crear múltiples gráficos en una figura
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+
+axs[0, 0].plot(x, y)
+axs[0, 0].set_title('Líneas')
+
+axs[0, 1].scatter(x, y)
+axs[0, 1].set_title('Dispersión')
+
+axs[1, 0].bar(categorias, valores)
+axs[1, 0].set_title('Barras')
+
+axs[1, 1].hist(datos, bins=5)
+axs[1, 1].set_title('Histograma')
+
+plt.tight_layout()
+plt.show()
+```
+
+== Personalización ==
+```python
+# Estilos de línea y marcadores
+plt.plot(x, y, 'ro-', linewidth=2, markersize=8)  # rojo, círculos, línea sólida
+
+# Añadir cuadrícula
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# Leyendas
+plt.plot(x, y, label='Cuadrados')
+plt.plot(x, [i**3 for i in x], label='Cubos')
+plt.legend()
+
+# Colores
+plt.plot(x, y, color='#FF5733')  # Usar código hexadecimal
+
+# Cambiar límites de ejes
+plt.xlim(0, 6)
+plt.ylim(0, 30)
+
+# Añadir anotaciones
+plt.annotate('Punto máximo', xy=(5, 25), xytext=(3, 20),
+             arrowprops=dict(facecolor='black', shrink=0.05))
+```
+
+------------------------------------------------------------------------
+5. LIBRERÍA SCIKIT-LEARN
+------------------------------------------------------------------------
+
+Scikit-learn es una librería para aprendizaje automático con herramientas 
+simples y eficientes para análisis predictivo.
+
+== Instalación ==
+pip install scikit-learn
+
+== Importación ==
+import sklearn
+
+== Preprocesamiento de datos ==
+```python
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.model_selection import train_test_split
+
+# Escalado de datos
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Normalización (escala a rango [0,1])
+min_max_scaler = MinMaxScaler()
+X_minmax = min_max_scaler.fit_transform(X)
+
+# División de datos en conjuntos de entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+```
+
+== Algoritmos de clasificación ==
+```python
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
+
+# Regresión logística
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+# Árbol de decisión
+tree_model = DecisionTreeClassifier(max_depth=5)
+tree_model.fit(X_train, y_train)
+
+# Random Forest
+rf_model = RandomForestClassifier(n_estimators=100)
+rf_model.fit(X_train, y_train)
+
+# SVM
+svm_model = SVC(kernel='rbf', C=1.0)
+svm_model.fit(X_train, y_train)
+
+# K-Nearest Neighbors
+knn_model = KNeighborsClassifier(n_neighbors=5)
+knn_model.fit(X_train, y_train)
+```
+
+== Algoritmos de regresión ==
+```python
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+
+# Regresión lineal
+reg_model = LinearRegression()
+reg_model.fit(X_train, y_train)
+y_pred = reg_model.predict(X_test)
+
+# Random Forest Regressor
+rf_reg = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_reg.fit(X_train, y_train)
+```
+
+== Evaluación de modelos ==
+```python
+from sklearn.metrics import (accuracy_score, precision_score, recall_score, 
+                             f1_score, confusion_matrix, mean_squared_error)
+
+# Clasificación
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, average='weighted')
+recall = recall_score(y_test, y_pred, average='weighted')
+f1 = f1_score(y_test, y_pred, average='weighted')
+cm = confusion_matrix(y_test, y_pred)
+
+# Regresión
+mse = mean_squared_error(y_test, y_pred)
+rmse = mean_squared_error(y_test, y_pred, squared=False)
+```
+
+== Validación cruzada ==
+```python
+from sklearn.model_selection import cross_val_score, GridSearchCV
+
+# Validación cruzada
+scores = cross_val_score(model, X, y, cv=5)
+print(f"Precisión validación cruzada: {scores.mean():.3f} ± {scores.std():.3f}")
+
+# Búsqueda de hiperparámetros
+param_grid = {'C': [0.1, 1, 10], 'kernel': ['linear', 'rbf']}
+grid_search = GridSearchCV(SVC(), param_grid, cv=5)
+grid_search.fit(X_train, y_train)
+print(f"Mejores parámetros: {grid_search.best_params_}")
+```
+
+== Pipeline ==
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+
+# Crear pipeline
+pipeline = Pipeline([
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', StandardScaler()),
+    ('classifier', RandomForestClassifier())
+])
+
+# Entrenar pipeline
+pipeline.fit(X_train, y_train)
+```
+
+------------------------------------------------------------------------
+6. LIBRERÍA SEABORN
+------------------------------------------------------------------------
+
+Seaborn es una biblioteca de visualización basada en matplotlib que proporciona 
+una interfaz de alto nivel para crear gráficos estadísticos atractivos.
+
+== Instalación ==
+pip install seaborn
+
+== Importación ==
+import seaborn as sns
+
+== Gráficos básicos ==
+```python
+# Configuración de estilo
+sns.set_theme(style="whitegrid")
+
+# Gráfico de dispersión
+tips = sns.load_dataset("tips")
+sns.scatterplot(x="total_bill", y="tip", hue="time", data=tips)
+plt.title("Propinas vs. Total de la cuenta")
+plt.show()
+
+# Gráfico de líneas
+flights = sns.load_dataset("flights")
+flights = flights.pivot("month", "year", "passengers")
+sns.lineplot(data=flights)
+plt.title("Pasajeros por año y mes")
+plt.show()
+
+# Histograma y densidad
+sns.histplot(tips["total_bill"], kde=True)
+plt.title("Distribución de cuentas")
+plt.show()
+
+# Boxplot
+sns.boxplot(x="day", y="total_bill", data=tips)
+plt.title("Distribución de cuentas por día")
+plt.show()
+
+# Violinplot
+sns.violinplot(x="day", y="total_bill", hue="sex", data=tips, split=True)
+plt.title("Distribución de cuentas por día y género")
+plt.show()
+```
+
+== Gráficos de relación ==
+```python
+# Pairplot (matriz de gráficos de dispersión)
+iris = sns.load_dataset("iris")
+sns.pairplot(iris, hue="species")
+plt.show()
+
+# Heatmap (mapa de calor)
+corr = iris.drop("species", axis=1).corr()
+sns.heatmap(corr, annot=True, cmap="coolwarm")
+plt.title("Matriz de correlación")
+plt.show()
+
+# Jointplot (distribución conjunta)
+sns.jointplot(x="sepal_length", y="petal_length", data=iris, kind="reg")
+plt.show()
+```
+
+== Gráficos categóricos ==
+```python
+# Barplot
+sns.barplot(x="day", y="total_bill", hue="sex", data=tips)
+plt.title("Promedio de cuenta por día y género")
+plt.show()
+
+# Countplot (conteo)
+sns.countplot(x="day", hue="sex", data=tips)
+plt.title("Conteo por día y género")
+plt.show()
+
+# Swarmplot (distribución de puntos)
+sns.swarmplot(x="day", y="total_bill", data=tips)
+plt.title("Distribución de cuentas por día")
+plt.show()
+```
+
+== FacetGrid (múltiples gráficos) ==
+```python
+# Crear gráficos por categoría
+g = sns.FacetGrid(tips, col="time", row="sex")
+g.map(sns.scatterplot, "total_bill", "tip")
+plt.show()
+
+# Personalizar FacetGrid
+g = sns.FacetGrid(tips, col="day", height=4, aspect=.7)
+g.map(sns.histplot, "total_bill", kde=True)
+g.add_legend()
+plt.show()
+```
+
+------------------------------------------------------------------------
+7. OTROS COMANDOS Y LIBRERÍAS IMPORTANTES
+------------------------------------------------------------------------
+
+== Requests (HTTP) ==
+```python
+import requests
+
+# GET request
+response = requests.get('https://api.example.com/data')
+data = response.json()
+
+# POST request
+payload = {'key1': 'value1', 'key2': 'value2'}
+response = requests.post('https://api.example.com/post', data=payload)
+```
+
+== Flask (Web) ==
+```python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'Hello, World!'
+
+@app.route('/api/data', methods=['GET'])
+def get_data():
+    return jsonify({'message': 'Data retrieved'})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+== BeautifulSoup (Web Scraping) ==
+```python
+from bs4 import BeautifulSoup
+import requests
+
+url = 'https://www.ejemplo.com'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Encontrar elementos
+titulos = soup.find_all('h2')
+links = soup.find_all('a', href=True)
+```
+
+== TensorFlow/Keras (Deep Learning) ==
+```python
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+# Crear modelo secuencial
+model = Sequential([
+    Dense(128, activation='relu', input_shape=(784,)),
+    Dense(64, activation='relu'),
+    Dense(10, activation='softmax')
+])
+
+# Compilar modelo
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Entrenar modelo
+model.fit(x_train, y_train, epochs=5, batch_size=32)
+```
+
+== PyTorch (Deep Learning) ==
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+# Definir red neuronal
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.fc1 = nn.Linear(784, 128)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 10)
+        
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
+# Crear modelo
+model = Net()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+```
+
+== SQL con SQLAlchemy ==
+```python
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+# Conexión
+engine = create_engine('sqlite:///example.db')
+Base = declarative_base()
+
+# Definir modelo
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    email = Column(String)
+
+# Crear tablas
+Base.metadata.create_all(engine)
+
+# Usar sesión
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Insertar datos
+new_user = User(name='Juan', email='juan@example.com')
+session.add(new_user)
+session.commit()
+
+# Consultar datos
+users = session.query(User).all()
+for user in users:
+    print(f"{user.id}: {user.name} ({user.email})")
+```
+
+== Datetime (Manejo de fechas) ==
+```python
+from datetime import datetime, timedelta
+
+# Fecha y hora actual
+now = datetime.now()
+print(f"Fecha y hora actual: {now}")
+
+# Formatear fecha
+formatted = now.strftime("%Y-%m-%d %H:%M:%S")
+print(f"Formateado: {formatted}")
+
+# Parsear fecha
+date_string = "2023-06-15 10:30:00"
+parsed_date = datetime.strptime(date_string, "%Y-%m-%d %H:%M:%S")
+
+# Operaciones con fechas
+tomorrow = now + timedelta(days=1)
+last_week = now - timedelta(weeks=1)
+```
+
+== Logging (Registro de eventos) ==
+```python
+import logging
+
+# Configuración básica
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename='app.log'
+)
+
+# Uso
+logging.debug("Mensaje de depuración")
+logging.info("Información general")
+logging.warning("Advertencia")
+logging.error("Error")
+logging.critical("Error crítico")
+```
+
+== Argparse (Argumentos de línea de comandos) ==
+```python
+import argparse
+
+# Crear parser
+parser = argparse.ArgumentParser(description='Descripción del programa')
+
+# Agregar argumentos
+parser.add_argument('--input', type=str, required=True, help='Archivo de entrada')
+parser.add_argument('--output', type=str, help='Archivo de salida')
+parser.add_argument('--verbose', action='store_true', help='Modo detallado')
+
+# Parsear argumentos
+args = parser.parse_args()
+
+# Usar argumentos
+print(f"Archivo de entrada: {args.input}")
+if args.verbose:
+    print("Modo detallado activado")
+```
+
+------------------------------------------------------------------------
+RESUMEN FINAL
+------------------------------------------------------------------------
+
+Python proporciona un ecosistema rico y diverso de librerías para casi cualquier 
+tarea. Este documento ha cubierto solo algunas de las más populares, pero hay 
+muchas más especializadas para tareas específicas.
+
+Librerías adicionales notables:
+- OpenCV: Visión por computador
+- Pillow: Manipulación de imágenes
+- NetworkX: Análisis de redes
+- Plotly: Visualizaciones interactivas
+- Scrapy: Web scraping avanzado
+- Django/FastAPI: Frameworks web completos
+- PySpark: Procesamiento distribuido
+- XGBoost/LightGBM: Modelos de gradient boosting
+- Gensim: Procesamiento de lenguaje natural
+- Streamlit: Aplicaciones web para ciencia de datos
+
+La mejor manera de aprender estas librerías es a través de la práctica y 
+explorando la documentación oficial.
+
+¡Feliz programación con Python! 🐍
