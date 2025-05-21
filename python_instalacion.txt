@@ -1,0 +1,243 @@
+========================================================================
+               GUÍA DE INSTALACIÓN DE PYTHON
+========================================================================
+
+Esta guía te ayudará a instalar Python y configurar tu entorno de desarrollo.
+
+------------------------------------------------------------------------
+1. INSTALACIÓN DE PYTHON
+------------------------------------------------------------------------
+
+== WINDOWS ==
+
+1. Visita https://www.python.org/downloads/
+2. Descarga la última versión estable (recomendado Python 3.10 o superior)
+3. Ejecuta el instalador descargado
+4. IMPORTANTE: Marca la casilla "Add Python to PATH"
+5. Selecciona "Install Now" para una instalación estándar
+6. Una vez finalizada la instalación, verifica que Python se haya instalado correctamente:
+   - Abre CMD o PowerShell
+   - Escribe: python --version
+   - Deberías ver algo como "Python 3.11.0"
+
+== macOS ==
+
+1. Opción A: Usando Homebrew (recomendado)
+   - Instala Homebrew si no lo tienes: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   - Instala Python: brew install python3
+
+2. Opción B: Instalador oficial
+   - Visita https://www.python.org/downloads/
+   - Descarga la última versión estable para macOS
+   - Ejecuta el instalador y sigue las instrucciones
+
+3. Verifica la instalación:
+   - Abre Terminal
+   - Escribe: python3 --version
+
+== LINUX ==
+
+1. La mayoría de distribuciones Linux ya vienen con Python preinstalado.
+   Verifica si ya lo tienes:
+   - Abre Terminal
+   - Escribe: python3 --version
+
+2. Si no está instalado:
+   - Ubuntu/Debian: sudo apt update && sudo apt install python3 python3-pip
+   - Fedora: sudo dnf install python3 python3-pip
+   - Arch: sudo pacman -S python python-pip
+
+------------------------------------------------------------------------
+2. ENTORNOS VIRTUALES
+------------------------------------------------------------------------
+
+Los entornos virtuales son esenciales para mantener diferentes proyectos con sus
+propias dependencias aisladas.
+
+== Creación y uso de entornos virtuales ==
+
+1. Instalar la herramienta virtualenv (si no está instalada):
+   pip install virtualenv
+
+2. Crear un nuevo entorno virtual:
+   - Windows: python -m venv nombre_entorno
+   - macOS/Linux: python3 -m venv nombre_entorno
+
+3. Activar el entorno virtual:
+   - Windows (cmd): nombre_entorno\Scripts\activate
+   - Windows (PowerShell): .\nombre_entorno\Scripts\Activate.ps1
+   - macOS/Linux: source nombre_entorno/bin/activate
+
+4. Para desactivar el entorno: deactivate
+
+== Alternativa: Conda ==
+
+Conda es una alternativa popular, especialmente útil para proyectos de ciencia de datos:
+
+1. Instala Miniconda desde: https://docs.conda.io/en/latest/miniconda.html
+
+2. Crear un entorno con Conda:
+   conda create --name nombre_entorno python=3.10
+
+3. Activar entorno:
+   conda activate nombre_entorno
+
+4. Desactivar:
+   conda deactivate
+
+------------------------------------------------------------------------
+3. GESTOR DE PAQUETES PIP
+------------------------------------------------------------------------
+
+Pip es el gestor de paquetes estándar de Python.
+
+== Comandos básicos de pip ==
+
+1. Instalar un paquete:
+   pip install nombre_paquete
+
+2. Instalar una versión específica:
+   pip install nombre_paquete==1.0.0
+
+3. Actualizar un paquete:
+   pip install --upgrade nombre_paquete
+
+4. Desinstalar un paquete:
+   pip uninstall nombre_paquete
+
+5. Listar paquetes instalados:
+   pip list
+
+6. Guardar dependencias en un archivo:
+   pip freeze > requirements.txt
+
+7. Instalar dependencias desde un archivo:
+   pip install -r requirements.txt
+
+------------------------------------------------------------------------
+4. EDITORES DE CÓDIGO Y IDEs
+------------------------------------------------------------------------
+
+Hay muchas opciones para desarrollar en Python:
+
+1. Visual Studio Code (VSCode)
+   - Ligero, extensible y gratuito
+   - Instala la extensión "Python" de Microsoft
+   - Soporte para debugging, linting, autocompletado
+   - Descarga: https://code.visualstudio.com/
+
+2. PyCharm
+   - IDE profesional para Python (versión Community gratuita)
+   - Funcionalidades avanzadas de refactorización y navegación de código
+   - Integración directa con frameworks populares
+   - Descarga: https://www.jetbrains.com/pycharm/
+
+3. Jupyter Notebook
+   - Ideal para ciencia de datos y exploración
+   - Instalación: pip install notebook
+   - Iniciar: jupyter notebook
+
+4. Spyder
+   - Diseñado para trabajo científico
+   - Similar a MATLAB/RStudio
+   - Viene incluido en Anaconda
+
+------------------------------------------------------------------------
+5. ESTRUCTURA BÁSICA DE PROYECTO
+------------------------------------------------------------------------
+
+Un proyecto de Python bien organizado suele tener esta estructura:
+
+mi_proyecto/
+│
+├── README.md                # Documentación del proyecto
+├── LICENSE                  # Licencia del proyecto
+├── setup.py                 # Configuración para distribuir el proyecto
+├── requirements.txt         # Dependencias del proyecto
+│
+├── mi_paquete/              # Código fuente principal
+│   ├── __init__.py          # Hace que el directorio sea un paquete
+│   ├── modulo1.py
+│   └── modulo2.py
+│
+├── tests/                   # Pruebas unitarias
+│   ├── __init__.py
+│   ├── test_modulo1.py
+│   └── test_modulo2.py
+│
+└── docs/                    # Documentación adicional
+    └── ...
+
+------------------------------------------------------------------------
+6. CONCEPTOS BÁSICOS DE PYTHON
+------------------------------------------------------------------------
+
+== Comentarios ==
+# Comentario de una línea
+
+"""
+Comentario
+de múltiples
+líneas (docstring)
+"""
+
+== Convenciones de nombres ==
+- variables_y_funciones: snake_case (minúsculas con guiones bajos)
+- CONSTANTES: MAYÚSCULAS_CON_GUIONES_BAJOS
+- ClasesYExcepciones: PascalCase (CapWords)
+- _variable_interna: comienza con guion bajo para uso interno
+- __variable_privada: comienza con doble guion bajo (name mangling)
+
+== PEP 8 ==
+PEP 8 es la guía de estilo oficial para código Python: https://pep8.org/
+
+Principales recomendaciones:
+- Usa 4 espacios para indentación (no tabuladores)
+- Limita líneas a 79 caracteres
+- Usa líneas en blanco para separar funciones y clases
+- Imports en líneas separadas y agrupados
+- Evita espacios en blanco innecesarios
+
+== Zen de Python ==
+El Zen de Python es un conjunto de 19 aforismos que resumen la filosofía de Python.
+Para verlo, escribe en el intérprete de Python:
+
+>>> import this
+
+------------------------------------------------------------------------
+7. RECURSOS DE APRENDIZAJE
+------------------------------------------------------------------------
+
+== Documentación oficial ==
+- Python.org: https://docs.python.org/3/
+- Tutorial oficial: https://docs.python.org/3/tutorial/
+
+== Libros recomendados ==
+- "Python Crash Course" por Eric Matthes
+- "Automate the Boring Stuff with Python" por Al Sweigart
+- "Fluent Python" por Luciano Ramalho (avanzado)
+
+== Cursos online ==
+- Coursera: "Python for Everybody" por Dr. Charles Severance
+- edX: "Introduction to Computer Science and Programming Using Python" del MIT
+- Codecademy: "Learn Python 3"
+- Real Python: https://realpython.com/
+
+== Sitios interactivos ==
+- Kaggle: https://www.kaggle.com/learn/python
+- HackerRank: https://www.hackerrank.com/domains/python
+- LeetCode: https://leetcode.com/problemset/
+
+------------------------------------------------------------------------
+CONSEJOS FINALES
+------------------------------------------------------------------------
+
+1. Practica regularmente, la programación se aprende programando.
+2. Trabaja en proyectos personales para aplicar lo aprendido.
+3. No tengas miedo de consultar la documentación y buscar ayuda.
+4. Participa en comunidades como Stack Overflow, Reddit (r/learnpython).
+5. Revisa código de otros y contribuye a proyectos de código abierto.
+6. Usa herramientas de calidad de código como flake8, pylint o black.
+7. Escribe pruebas unitarias para tu código desde el principio.
+
+¡Buena suerte en tu viaje con Python! 🐍
